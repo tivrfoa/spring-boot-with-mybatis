@@ -4,24 +4,18 @@ import com.example.dao.PublisherMapper;
 import com.example.dao.UserDao;
 import com.example.model.Publisher;
 import com.example.model.User;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.core.Is.is;
-
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class DemoTest {
+public class DemoTests {
 
   @Autowired
   PublisherMapper publisherMapper;  // Mybatis generated bean
@@ -30,36 +24,23 @@ public class DemoTest {
   UserDao userDao;
 
   @Test
-  public void findPublishers() {
+  public void testFindPublishers() {
     System.out.println( publisherMapper.getClass().getName());
     List<Publisher> publishers = publisherMapper.findAll();
     for (Publisher publisher : publishers) {
       System.out.println(publisher);
-      assertThat(publisher.getName(), is(not(nullValue())));
+      assert publisher.getName() != null;
     }
-    assertThat(publishers.size(), is(greaterThan(0)));
+    assert publishers.size() > 0;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   @Test
-  public void findsSomeUsers() {
+  public void testFindsSomeUsers() {
     List<User> allUsers = userDao.findOrderedUsers();
     for (User user : allUsers) {
       System.out.println(user);
-      assertThat(user.getUserName(), is(not(nullValue())));
+      assert user.getFirstName() != null;
     }
-    assertThat(allUsers.size(), is(greaterThan(0)));
+    assert allUsers.size() > 0;
   }
 }
